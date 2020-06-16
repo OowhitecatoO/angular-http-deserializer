@@ -3,7 +3,7 @@
   "version": "1.0.13",
   "description": "Deserialization Interceptor for Angular",
   "main": "index.js",
-  "types" : "index.d.ts",
+  "types": "index.d.ts",
   "dependencies": {
     "dateformat": "^3.0.3",
     "reflect-metadata": "^0.1.12",
