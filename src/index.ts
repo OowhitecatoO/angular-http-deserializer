@@ -1,6 +1,17 @@
 import 'reflect-metadata';
 import { Serializable, getSerializable, getConverters } from './decorators';
-import { getTypeOf, checkIsObject, newable, inputValue, outputValue, deserializeSig, Types, getTypeOfCtor, converter } from './types';
+import {
+    getTypeOf,
+    checkIsObject,
+    newable,
+    inputValue,
+    outputValue,
+    deserializeSig,
+    Types,
+    getTypeOfCtor,
+    converter,
+    indexSig
+} from './types';
 
 function factory<T>(class_: newable): T {
     return new class_() as T;
@@ -22,7 +33,7 @@ export function convert<T extends outputValue>(deserializeValue: inputValue, exp
         expectedTypeString = getTypeOfCtor(expectedType);
     } else if (!expectedType) {
         // Optional based on dataType only has to be specified on object types and primitives requiring casting.
-        expectedTypeString = valueTypeString;    
+        expectedTypeString = valueTypeString;
     } else {
         expectedTypeString = expectedType;
     }
@@ -70,7 +81,7 @@ export function deserialize<T extends outputValue>(type: newable, deserializeDat
     mustBeArray = mustBeArray == true;
     const isArray = Array.isArray(deserializeData);
     const typeCheckValue: inputValue = isArray ? (<any>deserializeData)[0] : deserializeData;
-    let valueTypeString: string = isArray && deserializeData.length == 0 ? '' : getTypeOf(typeCheckValue);
+    let valueTypeString: string = isArray && (deserializeData as indexSig).length == 0 ? '' : getTypeOf(typeCheckValue);
     let objectTypeString = getTypeOfCtor(type);
     const isTypeObject = checkIsObject(valueTypeString) || ((deserializeData == null || deserializeData == undefined) && checkIsObject(objectTypeString));
 
